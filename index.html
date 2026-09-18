@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111111">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <title>NowNext</title>
+</head>
+<body>
+<main>
+  <header><div><small id="mode">TODAY</small><h1>NowNext</h1></div><button id="settingsBtn" class="icon">⚙︎</button></header>
+  <section class="card"><div class="sectionHead"><b id="todayTitle">TODAY</b><span id="week">0 / 0</span></div><div id="today"></div></section>
+  <section class="card muted"><div class="sectionHead"><b id="nextTitle">NEXT</b></div><div id="next"></div></section>
+  <div class="actions"><button id="addBtn">＋ Add task</button><button id="skipDayBtn">Skip remaining today</button></div>
+  <section class="card"><div class="sectionHead"><b>WEEK HISTORY</b></div><div id="history"></div></section>
+</main>
+
+<dialog id="taskDialog"><form method="dialog" id="taskForm">
+<h2>Task</h2>
+<label>Title<input id="taskTitle" required></label>
+<label>Notes<textarea id="taskNotes"></textarea></label>
+<label>Type<select id="taskKind"><option value="task">Task</option><option value="info">Information</option></select></label>
+<label>Period<select id="taskPeriod"><option value="any">Anytime</option><option value="morning">Morning</option></select></label>
+<fieldset><legend>Days</legend><div id="days"></div></fieldset>
+<div class="dialogActions"><button value="cancel">Cancel</button><button id="saveTask" value="default">Save</button></div>
+</form></dialog>
+
+<dialog id="settingsDialog"><form method="dialog">
+<h2>Settings</h2>
+<label>Morning mode ends at<input id="cutoff" type="time"></label>
+<hr>
+<h3>Morning routine</h3>
+<p class="hint">Morning tasks normally use the default routine. Override individual days below.</p>
+<div id="morningDefault"></div>
+<label>Configure day<select id="overrideDay"><option value="">Uses default</option></select></label>
+<div id="morningOverride"></div>
+<hr>
+<h3>Daily reminder</h3>
+<label><input id="notifyEnabled" type="checkbox"> Enable reminder</label>
+<label>Time<input id="notifyTime" type="time"></label>
+<label>Message<input id="notifyText" placeholder="Morning 👋 You have things waiting."></label>
+<button type="button" id="notifyPermission">Allow notifications</button>
+<p class="hint">On iPhone, install NowNext to the Home Screen first. Reliable notifications while the app is closed require the optional push service included in this package.</p>
+<div class="dialogActions"><button value="default" id="saveSettings">Save</button></div>
+</form></dialog>
+
+<script src="app.js"></script>
+</body></html>

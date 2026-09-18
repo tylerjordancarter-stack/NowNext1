@@ -1,12 +1,30 @@
-# Optional push service
+# NowNext PWA v0.1
 
-The PWA itself works without a server. For **reliable scheduled iPhone notifications while NowNext is closed**, deploy a small web-push backend.
+A browser-installable, low-maintenance checklist built around **Morning → Today → Next**.
 
-The browser must:
-1. be installed to the iPhone Home Screen,
-2. receive notification permission from a user gesture,
-3. create a Push API subscription and send that subscription + chosen schedule/timezone to your backend.
+## Included
+- Installable PWA shell + offline cache.
+- Tasks and informational events.
+- Notes hidden from the main checklist; tap a titled task in the app to view them.
+- Recurring weekdays.
+- Morning Mode with default weekly routine and optional individual-day override.
+- Today and read-only Next day.
+- Cumulative weekly `X / Y`: future tasks do not enter the denominator; intentional skips are excluded.
+- Four-week history.
+- Skip remaining tasks today.
+- Notification permission + custom daily reminder settings UI.
+- Service worker push handling: tapping a push notification opens/focuses NowNext.
+- Reference Node web-push backend.
 
-The backend then stores the subscription and sends Web Push at the configured local time.
+## Important notification limitation
+The PWA can store your chosen reminder time/message locally, but Safari cannot reliably wake a closed PWA at 08:30 by itself. Reliable scheduled alerts require the included server-side Web Push path (or another push provider). iPhone Web Push requires the PWA to be added to the Home Screen and notification permission granted.
 
-`server.js` is a minimal Node/Express reference. Before production, add authentication/opaque device IDs, persistence, rate limiting and HTTPS. Never commit VAPID private keys.
+## Quick local test
+Serve this folder over HTTP rather than opening `index.html` directly:
+`python3 -m http.server 8080`
+Then visit `http://localhost:8080`.
+
+For an iPhone, host the folder on an HTTPS static host (GitHub Pages, Cloudflare Pages, Netlify, etc.), open the HTTPS address in Safari, Share → Add to Home Screen, launch it from the new icon, then allow notifications.
+
+## Data
+v0.1 stores tasks/settings/history in localStorage on that device. Clearing website data removes it. Cloud sync/export is a sensible later addition.
