@@ -17,7 +17,31 @@ function renderHistory(now){let box=$("#history"),items=[];for(let w=0;w<4;w++){
 $("#skipDayBtn").onclick=()=>{let d=new Date();for(let t of data.tasks)if(t.kind==="task"&&due(t,d)&&!state(t,d)){data.occ[key(d)]??={};data.occ[key(d)][t.id]="skip"}save()};
 const td=$("#taskDialog");$("#addBtn").onclick=()=>td.showModal();
 $("#days").innerHTML="<div class=daygrid>"+[1,2,3,4,5,6,0].map(d=>`<label><input type=checkbox value=${d}>${names[d]}</label>`).join("")+"</div>";
-$("#saveTask").onclick=e=>{if(!$("#taskTitle").value.trim())return;let ds=[...$("#days input:checked")].map(x=>+x.value);data.tasks.push({id:crypto.randomUUID(),title:$("#taskTitle").value.trim(),notes:$("#taskNotes").value,kind:$("#taskKind").value,period:$("#taskPeriod").value,days:ds,enabled:true});td.close();$("#taskForm").reset();save()};
+function clearTaskForm(){
+  $("#taskForm").reset();
+}
+$("#taskForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const title=$("#taskTitle").value.trim();
+  if(!title){ $("#taskTitle").focus(); return; }
+  const ds=[...$("#days input:checked")].map(x=>Number(x.value));
+  const task={
+    id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random()),
+    title,
+    notes:$("#taskNotes").value.trim(),
+    kind:$("#taskKind").value,
+    period:$("#taskPeriod").value,
+    days:ds,
+    enabled:true
+  };
+  data.tasks.push(task);
+  localStorage.setItem(LS,JSON.stringify(data));
+  clearTaskForm();
+  td.close();
+  render();
+});
+$("#cancelTask").onclick=()=>{clearTaskForm();td.close()};
+td.addEventListener("close",clearTaskForm);
 const sd=$("#settingsDialog");$("#settingsBtn").onclick=()=>{loadSettings();sd.showModal()};
 function taskChecks(ids){return data.tasks.filter(t=>t.kind==="task").map(t=>`<label><input type=checkbox value="${t.id}" ${ids.includes(t.id)?"checked":""}> ${t.title}</label>`).join("")||"<p class=hint>Add tasks first.</p>"}
 function loadSettings(){$("#cutoff").value=data.settings.cutoff;$("#notifyEnabled").checked=data.settings.notify.enabled;$("#notifyTime").value=data.settings.notify.time;$("#notifyText").value=data.settings.notify.text;$("#morningDefault").innerHTML=taskChecks(data.settings.defaultMorning);$("#overrideDay").innerHTML='<option value="">Uses default</option>'+names.map((n,i)=>`<option value=${i}>${n}</option>`).join("");$("#morningOverride").innerHTML=""}

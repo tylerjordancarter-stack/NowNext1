@@ -16,14 +16,14 @@
   <section class="card"><div class="sectionHead"><b>WEEK HISTORY</b></div><div id="history"></div></section>
 </main>
 
-<dialog id="taskDialog"><form method="dialog" id="taskForm">
+<dialog id="taskDialog"><form id="taskForm">
 <h2>Task</h2>
 <label>Title<input id="taskTitle" required></label>
 <label>Notes<textarea id="taskNotes"></textarea></label>
 <label>Type<select id="taskKind"><option value="task">Task</option><option value="info">Information</option></select></label>
 <label>Period<select id="taskPeriod"><option value="any">Anytime</option><option value="morning">Morning</option></select></label>
 <fieldset><legend>Days</legend><div id="days"></div></fieldset>
-<div class="dialogActions"><button value="cancel">Cancel</button><button id="saveTask" value="default">Save</button></div>
+<div class="dialogActions"><button type="button" id="cancelTask">Cancel</button><button type="submit" id="saveTask">Save</button></div>
 </form></dialog>
 
 <dialog id="settingsDialog"><form method="dialog">
